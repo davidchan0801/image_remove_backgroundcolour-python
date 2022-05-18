@@ -4,6 +4,16 @@ import sys
 import numpy as np
 from PIL import Image
 
+# Remove white colour to transparent program in python
+
+# Prerequisite:
+# pip install numpy
+# pip install Pillow
+
+# Description
+# The sample project provide you an example to remove specfic colours into transparent colour of bmp images.
+# Please put images in root directory.
+
 file_extension = ["jpg", "bmp", "png"]
 replace_color = [0,0,0,0]
 
@@ -32,20 +42,15 @@ def saveRemoveBlackColor(img,path):
           img.save(path.replace("."+ext,'.png'))
           break
 
-# Remove white colour to transparent program in python
+if (os.path.isdir("output")):
+  shutil.rmtree("output")
+os.mkdir("output")
 
-# Prerequisite:
-# pip install numpy
-# pip install Pillow
-
-# Description
-# The sample project provide you an example to remove specfic colours into transparent colour of bmp images.
-# Please put images in root directory.
-
-for root, dirss, files in os.walk(".."):
-  for filename in files:
+for entry in os.scandir('.'):
+  if entry.is_file():
+    filename = entry.name
     for ext in file_extension:
       if (filename.endswith("."+ext)):
         img = Image.open(filename)
         img = img.convert('RGBA')
-        saveRemoveWhiteColor(img, filename.split(".")[0] + "_modified.png")
+        saveRemoveWhiteColor(img, "output/"+filename.split(".")[0] + ".png")
